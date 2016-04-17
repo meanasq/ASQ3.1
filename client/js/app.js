@@ -521,7 +521,7 @@ app.controller('registerController',
 		else {			
 			$scope.user.password 	= $scope.user.passwd1;
 			$scope.user.expiryDate 	= expDate;
-			$scope.user.role 		= "user";
+			$scope.user.role 		= "admin";
 			$scope.user.activeIn 	= "Y";			
 			$scope.user.state 		= $scope.selectedState;
 			$scope.user.birthDate 	= moment($scope.user.birthDate).format('MM/DD/YYYY');			

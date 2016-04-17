@@ -654,19 +654,22 @@ app.post('/updateQuestionDet', function(req, res) {
 		_id : req.body._id
 	}, function(err, result) {
 		if (result && result._id) {
-			$cat.update({
-				_id : req.body._id
-			}, {
-				content : req.body.content,
-				choices : JSON.parse(req.body.choices),
-				correctChoice : req.body.correctCh
-			}, false, function(err, num) {
+			$cat.remove({
+				_id: req.body._id
+			}, function (err, num) {
 				if (num.ok = 1) {
-					console.log('success');
-					res.send('success')
-				} else {
-					console.log('error');
-					res.send('error')
+					console.log('remove success');
+					console.log(req.body);
+					var questionRecord = new $cat(req.body);
+					questionRecord.save(function (err) {
+						if (num.ok = 1) {
+							console.log('success');
+							res.send('success')
+						} else {
+							console.log('error');
+							res.send('error')
+						}
+					})
 				}
 			})
 		}
@@ -739,24 +742,39 @@ app.post('/updateProfile', function(req, res) {
 		email : req.body.email
 	}, function(err, result) {
 		if (result && result.email) {
-			userModel.update({
-				email : req.body.email
-			}, {
-				firstName 	: req.body.firstName,
-				lastName 	: req.body.lastName,
-				address1 	: req.body.address1,
-				address2 	: req.body.address2,
-				city 		: req.body.city,
-				state 		: req.body.state,
-				zipcode 	: req.body.zipcode,
-				birthDate 	: req.body.birthDate
-			}, false, function(err, num) {
+			// first remove user
+			userModel.remove({
+				email: req.body.email
+			}, function (err, num) {
 				if (num.ok = 1) {
-					console.log(req.body.email + ' User Profile Updated');
-					res.send('success')
-				} else {
-					console.log('Error updaring User Profile ' + req.body.email);
-					res.send('error')
+					console.log('user remove success');
+					// now create new user
+					var newUser = new userModel({
+						email: result.email,
+						password: result.password,
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						address1: req.body.address1,
+						address2: req.body.address2,
+						city: req.body.city,
+						state: req.body.state,
+						zipcode: req.body.zipcode,
+						role: result.role,
+						activeIn: result.activeIn,
+						expiryDate: result.expiryDate,
+						birthDate: req.body.birthDate,
+						resetPasswordToken: result.resetPasswordToken,
+						resetPasswordExpires: result.resetPasswordExpires
+					});
+					newUser.save(function (err) {
+						if (num.ok = 1) {
+							console.log(req.body.email + ' User Profile Updated');
+							res.send('success')
+						} else {
+							console.log('Error updaring User Profile ' + req.body.email);
+							res.send('error')
+						}
+					})
 				}
 			})
 		}
