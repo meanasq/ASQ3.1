@@ -839,7 +839,6 @@ app.controller('adminController',
 
 	// Get Questions on selected Category
 	$scope.searchQuestions = function (currentUser){
-		
 		$scope.searchCat 		= currentUser.searchCat;
 		$scope.count 			= 20;
 		$scope.partialQuestions = [];
@@ -883,14 +882,14 @@ app.controller('adminController',
 	$scope.addQuestion = function () {
 		var splitChoice  = $scope.addQueChoice.split("\n");
 		var formatChoice = angular.toJson(splitChoice);
-	
-			formatChoice = formatChoice.replace('"A:',' "A" : "');
-			formatChoice = formatChoice.replace('"B:',' "B" : "');
-			formatChoice = formatChoice.replace('"C:',' "C" : "');
-			formatChoice = formatChoice.replace('"D:',' "D" : "');
-			formatChoice = formatChoice.replace('[','{ ');
-			formatChoice = formatChoice.replace(']',' }');
-		
+
+		formatChoice = formatChoice.replace('"A:',' "A" : "');
+		formatChoice = formatChoice.replace('"B:',' "B" : "');
+		formatChoice = formatChoice.replace('"C:',' "C" : "');
+		formatChoice = formatChoice.replace('"D:',' "D" : "');
+		formatChoice = formatChoice.replace('[','{ ');
+		formatChoice = formatChoice.replace(']',' }');
+
 		var postData = { 
 			category 		: $scope.addQueCat,
 			content 		: $scope.addQueContent,
@@ -954,10 +953,10 @@ app.controller('adminController',
 
 	// Get Edit Function Question Values
 	$scope.getQuestionValues = function() {		
-		$scope.QueCat 		= $rootScope.QueCat
-		$scope.QueContent 	= $rootScope.QueContent
-		$scope.QueChoice 	= $rootScope.QueChoice
-		$scope.QueCorChoice = $rootScope.QueCorChoice
+		$scope.QueCat 		= $rootScope.QueCat;
+		$scope.QueContent 	= $rootScope.QueContent;
+		$scope.QueChoice 	= $rootScope.QueChoice;
+		$scope.QueCorChoice = $rootScope.QueCorChoice;
 	}
 			
 	// Update Question Function
@@ -965,19 +964,19 @@ app.controller('adminController',
 		var splitChoice  = $scope.QueChoice.split("\n");
 		var formatChoice = angular.toJson(splitChoice);
 
-			formatChoice = formatChoice.replace('"A:',' "A" : "');
-			formatChoice = formatChoice.replace('"B:',' "B" : "');
-			formatChoice = formatChoice.replace('"C:',' "C" : "');
-			formatChoice = formatChoice.replace('"D:',' "D" : "');
-			formatChoice = formatChoice.replace('[','{ ');
-			formatChoice = formatChoice.replace(']',' }');
-			
+		formatChoice = formatChoice.replace('"A:',' "A" : "');
+		formatChoice = formatChoice.replace('"B:',' "B" : "');
+		formatChoice = formatChoice.replace('"C:',' "C" : "');
+		formatChoice = formatChoice.replace('"D:',' "D" : "');
+		formatChoice = formatChoice.replace('[','{ ');
+		formatChoice = formatChoice.replace(']',' }');
+
 		var postData = { 
 			_id 		: $rootScope.questionID,
 			category 	: $scope.QueCat,
 			content 	: $scope.QueContent,
-			choices 	: formatChoice,
-			correctCh 	: $scope.QueCorChoice
+			choices 	: JSON.parse(formatChoice),
+			correctChoice 	: $scope.QueCorChoice
 		};
 
 		$http.post('/updateQuestionDet',postData)
