@@ -1,6 +1,9 @@
+process.env.port = 5337
+process.env.encKey = esFTSM34OSY9VexbRMJ2Jtnki1fYoGRZhQFOz0V6UZE=
+process.env.sigKey = TRs1JfsxMcwdavI0dDYmcJeBr7SyEBPn1Ly1/EQCNvnAx/jLCwo0oHv9m+bjykFydhStlGrCbwZvoZwPGNjytw==
 
-process.env.port 	= 1337
-mongodb.connect.url = mongodb://localhost:27017/Quiz
+#mongodb.connect.url = mongodb://localhost:27017/mean-test
+mongodb.connect.url = mongodb://admin:asq123@ds011820.mlab.com:11820/dbmeanasq
 
 model.ep 	= epmodels
 model.gk 	= gkmodels

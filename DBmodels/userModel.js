@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var encryptor = require('mongoose-encryption');
 
 //encKey generated using command - openssl rand -base64 32;
-var encKey = 'esFTSM34OSY9VexbRMJ2Jtnki1fYoGRZhQFOz0V6UZE=';//process.env.SOME_32BYTE_BASE64_STRING;
+var encKey = process.env.encKey;
 //sigKey generated using command - openssl rand -base64 64;
-var sigKey = 'TRs1JfsxMcwdavI0dDYmcJeBr7SyEBPn1Ly1/EQCNvnAx/jLCwo0oHv9m+bjykFydhStlGrCbwZvoZwPGNjytw==';//process.env.SOME_64BYTE_BASE64_STRING;
+var sigKey = process.env.sigKey;
 
 //Updated by Srinivas Thungathurti for ASQ Upgrade 2.0
 var userSchema = new mongoose.Schema({
