@@ -793,30 +793,37 @@ app.post('/updateProfile', function(req, res) {
 //Added by Srinivas Thungathurti for ASQ Upgrade2.0.saveUserProfile function added to update the user profile information using Admin User Management screen.
 app.post('/saveUserProfile', function(req, res) {
 	userModel.findOne({
-		email : req.body.email
-	}, function(err, result) {
+		email: req.body.email
+	}, function (err, result) {
 		if (result && result.email) {
-			userModel.update({
-				email : req.body.email
-			}, {
-				firstName 	: req.body.firstName,
-				lastName 	: req.body.lastName,
-				address1 	: req.body.address1,
-				address2 	: req.body.address2,
-				city 		: req.body.city,
-				state 		: req.body.state,
-				zipcode 	: req.body.zipcode,
-				birthDate 	: req.body.birthDate,
-				expiryDate 	: req.body.expiryDate,
-				role 		: req.body.role,
-				activeIn 	: req.body.activeIn				
-			}, false, function(err, num) {
+			userModel.remove({
+				email: req.body.email
+			}, function (err, num) {
 				if (num.ok = 1) {
-					console.log('success');
-					res.send('success')
-				} else {
-					console.log('error');
-					res.send('error')
+					var newUser = new userModel({
+						email: req.body.email,
+						password: req.body.password,
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						address1: req.body.address1,
+						address2: req.body.address2,
+						city: req.body.city,
+						state: req.body.state,
+						zipcode: req.body.zipcode,
+						birthDate: req.body.birthDate,
+						expiryDate: req.body.expiryDate,
+						role: req.body.role,
+						activeIn: req.body.activeIn
+					});
+					newUser.save(function (err) {
+						if (num.ok = 1) {
+							console.log('success');
+							res.send('success')
+						} else {
+							console.log('error');
+							res.send('error')
+						}
+					})
 				}
 			})
 		}
