@@ -1,5 +1,11 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var encryptor = require('mongoose-encryption');
+
+//encKey generated using command - openssl rand -base64 32;
+var encKey = process.env.encKey;
+//sigKey generated using command - openssl rand -base64 64;
+var sigKey = process.env.sigKey;
 
 //Updated by Srinivas Thungathurti for ASQ Upgrade 2.0
 var userSchema = new mongoose.Schema({
@@ -19,6 +25,8 @@ var userSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });
+//encrypt fields
+userSchema.plugin(encryptor, { encryptionKey: encKey, signingKey: sigKey, encryptedFields: ['role', 'activeIn'] });
 
 userSchema.methods.validPassword = function( pwd ) {
     return ( this.password === pwd );
